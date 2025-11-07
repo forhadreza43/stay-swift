@@ -1,7 +1,7 @@
 import { db, client } from '@/db/mongo-client';
 import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
-
+import { nextCookies } from 'better-auth/next-js';
 export const auth = betterAuth({
    database: mongodbAdapter(db, { client }),
    emailAndPassword: {
@@ -22,4 +22,5 @@ export const auth = betterAuth({
          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       },
    },
+   plugins: [nextCookies()],
 });
