@@ -1,4 +1,4 @@
-export type Hotels = {
+export type Hotel = {
    id: string;
    name: string;
    address1: string;
