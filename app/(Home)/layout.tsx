@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
-import './globals.css';
+import '../globals.css';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { connectDB } from '@/db/models';
@@ -27,7 +27,7 @@ export default function RootLayout({
                enableSystem
                disableTransitionOnChange
             >
-               <Navbar />
+               <Navbar sideMenu={true} />
                <main>{children}</main>
             </ThemeProvider>
          </body>
