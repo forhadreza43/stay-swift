@@ -18,9 +18,11 @@ import {
    TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { ThemeToggle } from './theme/theme-toggle';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
    const { data } = useSession();
+   const router = useRouter();
    const user = data?.user;
    return (
       <nav>
@@ -55,9 +57,12 @@ const Navbar = () => {
 
             {!user && (
                <li>
-                  <Link href="/login" className="login">
+                  <Button
+                     className="hover:rounded-full"
+                     onClick={() => router.push('/login')}
+                  >
                      Login
-                  </Link>
+                  </Button>
                </li>
             )}
             {user && (
