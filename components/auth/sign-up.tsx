@@ -47,9 +47,9 @@ export default function SignUp() {
       <Card className="max-w-md">
          <CardHeader>
             <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
-            <CardDescription className="text-xs md:text-sm">
+            {/* <CardDescription className="text-xs md:text-sm">
                Enter your information to create an account
-            </CardDescription>
+            </CardDescription> */}
             {error && (
                <CardDescription className="text-xs md:text-sm text-red-500">
                   {error}

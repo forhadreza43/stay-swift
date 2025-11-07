@@ -13,27 +13,34 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
-import { Loader2} from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { signIn } from '@/lib/auth-client';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
+import { toast } from 'sonner';
 
 export default function SignIn() {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [loading, setLoading] = useState(false);
    const [rememberMe, setRememberMe] = useState(false);
-   const router = useRouter()
+   const [error, setError] = useState('');
+   const router = useRouter();
 
    return (
       <Card className="max-w-md">
          <CardHeader>
             <CardTitle className="text-lg md:text-xl">Sign In</CardTitle>
-            <CardDescription className="text-xs md:text-sm">
+            {/* <CardDescription className="text-xs md:text-sm">
                Enter your email below to login to your account
-            </CardDescription>
+            </CardDescription> */}
+            {error && (
+               <CardDescription className="text-xs md:text-sm text-red-500">
+                  {error}
+               </CardDescription>
+            )}
          </CardHeader>
          <CardContent>
             <div className="grid gap-4">
@@ -95,12 +102,18 @@ export default function SignIn() {
                         {
                            onRequest: () => {
                               setLoading(true);
+                              setError('');
                            },
                            onResponse: () => {
                               setLoading(false);
                            },
                            onSuccess: () => {
+                              setError('');
                               router.push('/');
+                           },
+                           onError: (ctx) => {
+                              setError(ctx.error.message);
+                              toast.error(ctx.error.message);
                            },
                         }
                      );
