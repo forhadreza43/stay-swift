@@ -154,7 +154,7 @@ export default function SignUp() {
                </div>
                <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full hover:rounded-full"
                   disabled={loading}
                   onClick={async () => {
                      if(password === passwordConfirmation){
