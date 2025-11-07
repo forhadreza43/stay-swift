@@ -6,6 +6,13 @@
 /* @theme {
    --color-primary: #ff792b;
 } */
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 nav {
    @apply max-w-7xl flex mx-auto justify-between px-4 py-4 absolute top-0 w-full left-0 right-0 z-50;
 }
