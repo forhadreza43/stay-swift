@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
+import { connectDB } from '@/db/models';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,6 +17,7 @@ export default function RootLayout({
 }: Readonly<{
    children: React.ReactNode;
 }>) {
+   connectDB();
    return (
       <html lang="en" suppressHydrationWarning={true}>
          <body className={`${inter.className} antialiased`}>
