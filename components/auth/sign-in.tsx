@@ -200,10 +200,7 @@ export default function SignIn() {
             <div className="flex justify-center w-full border-t py-4">
                <p className="text-center text-xs text-neutral-500">
                   Are you new here{' '}
-                  <Link
-                     href="/signup"
-                     className="underline"
-                  >
+                  <Link href="/signup" className="underline">
                      <span className="dark:text-white/70 cursor-pointer">
                         sign up
                      </span>
