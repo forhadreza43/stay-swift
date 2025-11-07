@@ -20,7 +20,7 @@ import {
 import { ThemeToggle } from './theme/theme-toggle';
 import { useRouter } from 'next/navigation';
 
-const Navbar = () => {
+const Navbar = ({ sideMenu }: { sideMenu: boolean }) => {
    const { data } = useSession();
    const router = useRouter();
    const user = data?.user;
@@ -34,75 +34,76 @@ const Navbar = () => {
                height={200}
             />
          </Link>
-
-         <ul>
-            <li>
-               <Link href="#">Recommended Places</Link>
-            </li>
-
-            <li>
-               <Link href="#">About Us</Link>
-            </li>
-
-            <li>
-               <Link href="#">Contact us</Link>
-            </li>
-
-            {user && (
+         {sideMenu && (
+            <ul>
                <li>
-                  <Link href="/bookings">Bookings</Link>
+                  <Link href="#">Recommended Places</Link>
                </li>
-            )}
-            <li>
-               <ThemeToggle />
-            </li>
 
-            {!user && (
                <li>
-                  <Button
-                     className="hover:rounded-full"
-                     onClick={() => router.push('/login')}
-                  >
-                     Login
-                  </Button>
+                  <Link href="#">About Us</Link>
                </li>
-            )}
-            {user && (
-               <DropdownMenu>
-                  <DropdownMenuTrigger className="outline-none">
-                     <Tooltip>
-                        <TooltipTrigger>
-                           <Avatar>
-                              <AvatarImage
-                                 src={(user?.image && user?.image) || ''}
-                              />
-                              <AvatarFallback className="font-semibold">
-                                 {user.name[0]}
-                              </AvatarFallback>
-                           </Avatar>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                           <p>{user?.name}</p>
-                        </TooltipContent>
-                     </Tooltip>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem>
-                        <Button
-                           size="sm"
-                           className="w-full hover:rounded-full"
-                           onClick={() => signOut()}
-                        >
-                           {' '}
-                           Sign Out{' '}
-                        </Button>
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
-            )}
-         </ul>
+
+               <li>
+                  <Link href="#">Contact us</Link>
+               </li>
+
+               {user && (
+                  <li>
+                     <Link href="/bookings">Bookings</Link>
+                  </li>
+               )}
+               <li>
+                  <ThemeToggle />
+               </li>
+
+               {!user && (
+                  <li>
+                     <Button
+                        className="hover:rounded-full"
+                        onClick={() => router.push('/login')}
+                     >
+                        Login
+                     </Button>
+                  </li>
+               )}
+               {user && (
+                  <DropdownMenu>
+                     <DropdownMenuTrigger className="outline-none">
+                        <Tooltip>
+                           <TooltipTrigger>
+                              <Avatar>
+                                 <AvatarImage
+                                    src={(user?.image && user?.image) || ''}
+                                 />
+                                 <AvatarFallback className="font-semibold bg-primary text-white">
+                                    {user.name[0]}
+                                 </AvatarFallback>
+                              </Avatar>
+                           </TooltipTrigger>
+                           <TooltipContent>
+                              <p>{user?.name}</p>
+                           </TooltipContent>
+                        </Tooltip>
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent>
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                           <Button
+                              size="sm"
+                              className="w-full hover:rounded-full"
+                              onClick={() => signOut()}
+                           >
+                              {' '}
+                              Sign Out{' '}
+                           </Button>
+                        </DropdownMenuItem>
+                     </DropdownMenuContent>
+                  </DropdownMenu>
+               )}
+            </ul>
+         )}
       </nav>
    );
 };
