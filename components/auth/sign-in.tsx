@@ -13,12 +13,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
-import { Loader2, Key } from 'lucide-react';
+import { Loader2} from 'lucide-react';
 import { signIn } from '@/lib/auth-client';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { FaGoogle, FaGithub, FaFacebook } from 'react-icons/fa';
+import { FaGoogle, FaGithub } from 'react-icons/fa';
 
 export default function SignIn() {
    const [email, setEmail] = useState('');
@@ -93,13 +93,13 @@ export default function SignIn() {
                            password,
                         },
                         {
-                           onRequest: (ctx) => {
+                           onRequest: () => {
                               setLoading(true);
                            },
-                           onResponse: (ctx) => {
+                           onResponse: () => {
                               setLoading(false);
                            },
-                           onSuccess: (ctx) => {
+                           onSuccess: () => {
                               router.push('/');
                            },
                         }
@@ -130,10 +130,10 @@ export default function SignIn() {
                               callbackURL: '/',
                            },
                            {
-                              onRequest: (ctx) => {
+                              onRequest: () => {
                                  setLoading(true);
                               },
-                              onResponse: (ctx) => {
+                              onResponse: () => {
                                  setLoading(false);
                               },
                            }
@@ -155,10 +155,10 @@ export default function SignIn() {
                               callbackURL: '/',
                            },
                            {
-                              onRequest: (ctx) => {
+                              onRequest: () => {
                                  setLoading(true);
                               },
-                              onResponse: (ctx) => {
+                              onResponse: () => {
                                  setLoading(false);
                               },
                            }
@@ -167,31 +167,6 @@ export default function SignIn() {
                   >
                      <FaGithub />
                      Sign in with Github
-                  </Button>
-
-                  <Button
-                     variant="outline"
-                     className={cn('w-full gap-2 hover:rounded-full')}
-                     disabled={loading}
-                     onClick={async () => {
-                        await signIn.social(
-                           {
-                              provider: 'facebook',
-                              callbackURL: '/',
-                           },
-                           {
-                              onRequest: (ctx) => {
-                                 setLoading(true);
-                              },
-                              onResponse: (ctx) => {
-                                 setLoading(false);
-                              },
-                           }
-                        );
-                     }}
-                  >
-                     <FaFacebook />
-                     Sign in with Facebook
                   </Button>
                </div>
             </div>
