@@ -3,11 +3,11 @@ const { Schema, model, models } = mongoose;
 
 const connectDB = async () => {
    try {
-      if (mongoose.connections[0].readyState) {
-         console.log('Already connected to DB');
-         return;
+      const mongoUri = process.env.MONGO_URI;
+      if (!mongoUri) {
+         throw new Error('MONGO_URI is not defined in environment variables');
       }
-      await mongoose.connect(`${process.env.MONGODB_URI}/stayswift`);
+      await mongoose.connect(`${mongoUri}/stayswift`);
       console.log('Connected to DB');
    } catch (error) {
       console.log('Error connecting to DB:', error);
