@@ -48,9 +48,11 @@ const Navbar = () => {
                <Link href="#">Contact us</Link>
             </li>
 
-            <li>
-               <Link href="/bookings">Bookings</Link>
-            </li>
+            {user && (
+               <li>
+                  <Link href="/bookings">Bookings</Link>
+               </li>
+            )}
             <li>
                <ThemeToggle />
             </li>
@@ -90,7 +92,7 @@ const Navbar = () => {
                      <DropdownMenuItem>
                         <Button
                            size="sm"
-                           className="w-full"
+                           className="w-full hover:rounded-full"
                            onClick={() => signOut()}
                         >
                            {' '}
