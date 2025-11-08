@@ -1,6 +1,12 @@
 import ProfileInfo from '@/components/user/ProfileInfo';
 import PastBooking from '@/components/user/booking/PastBooking';
 import UpcomingBooking from '@/components/user/booking/UpcomingBooking';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+   title: 'Bookings',
+   description: 'Manage your hotel bookings with StaySwift',
+};
 
 const BookingsPage = () => {
    return (
