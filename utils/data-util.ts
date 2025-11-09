@@ -3,12 +3,22 @@
 export const replaceMongoIdInArray = (array: any[]) => {
    const mappedArray = array
       .map((item) => {
-         return {
+         const converted: any = {
             id: item._id.toString(),
             ...item,
          };
-      })
-      .map(({ _id, ...rest }) => rest);
+         
+         // Convert ObjectId fields to strings
+         if (item.userId && typeof item.userId.toString === 'function') {
+            converted.userId = item.userId.toString();
+         }
+         if (item.hotelId && typeof item.hotelId.toString === 'function') {
+            converted.hotelId = item.hotelId.toString();
+         }
+         
+         const { _id, ...rest } = converted;
+         return rest;
+      });
 
    return mappedArray;
 };
