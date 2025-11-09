@@ -22,8 +22,8 @@ const reviewSchema = new Schema({
 const Review = models.Review || model('Review', reviewSchema);
 
 const ratingSchema = new Schema({
-   hotelId: { type: String, required: true },
-   userId: { type: String, required: true },
+   hotelId: { type: Schema.Types.ObjectId, required: true },
+   userId: { type: Schema.Types.ObjectId, required: true },
    rating: { type: Number, required: true },
 });
 const Rating = models.Rating || model('Rating', ratingSchema);
@@ -95,4 +95,22 @@ const hotelSchema = new Schema({
    },
 });
 const Hotel = models.Hotel || model('Hotel', hotelSchema);
-export { connectDB, Review, Rating, Booking, Hotel };
+
+const userSchema = new Schema(
+   {
+      name: {
+         required: true,
+         type: String,
+      },
+      email: {
+         required: true,
+         type: String,
+      },
+      emailVerified: { type: Boolean },
+      image: { type: String },
+   },{
+      collection: 'user',
+   }
+);
+const User = models.User || model('User', userSchema);
+export { connectDB, Review, Rating, Booking, Hotel, User };
