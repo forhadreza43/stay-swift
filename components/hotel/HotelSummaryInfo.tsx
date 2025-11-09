@@ -26,10 +26,7 @@ const HotelSummaryInfo = ({
                <MapPin size={18} /> <span>{hotel?.city}</span>
             </p>
             <div className="flex gap-2 items-center my-4">
-               <div className="bg-primary w-[35px] h-[35px] rounded-sm text-white grid place-items-center font-bold">
-                  <HotelRatings hotelId={hotel?.id} />
-               </div>
-               <span className="font-medium">Very Good</span>
+               <HotelRatings hotelId={hotel?.id} />
                <span>|</span>
                <HotelReviews hotelId={hotel?.id} />
             </div>
