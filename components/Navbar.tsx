@@ -18,14 +18,17 @@ import {
    TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { ThemeToggle } from './theme/theme-toggle';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = ({ sideMenu }: { sideMenu: boolean }) => {
    const { data } = useSession();
    const router = useRouter();
    const user = data?.user;
+   const pathname = usePathname();
+   const isActive = pathname.startsWith('/image/');
+   // console.log('current path:', isActive);
    return (
-      <nav>
+      <nav style={{ display: isActive ? 'none' : '' }}>
          <Link href="/">
             <Image
                src="/stayswift.png"
