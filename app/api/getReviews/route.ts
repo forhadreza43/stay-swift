@@ -1,4 +1,5 @@
 import { Review } from '@/db/models';
+import { replaceMongoIdInArray } from '@/utils/data-util';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -12,7 +13,8 @@ export async function GET(request: NextRequest) {
       }
 
       const reviews = await Review.find({ hotelId: hotelId }).lean();
-      return NextResponse.json({ data: reviews, status: 200 });
+      const modifiedReviews = replaceMongoIdInArray(reviews);
+      return NextResponse.json({ data: modifiedReviews, status: 200 });
    } catch (error) {
       console.log(`GET /api/getReviews error:`, error);
       return NextResponse.json(
