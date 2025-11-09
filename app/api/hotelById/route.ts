@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
             'city',
             'propertyCategory',
             'gallery',
-            'shortDescription',
+            'overview',
          ])
          .lean();
       const modifiedHotel = replaceMongoIdInObject(hotel);

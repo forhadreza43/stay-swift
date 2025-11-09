@@ -28,7 +28,7 @@ const HotelDetailsPage = async ({
       <>
          <Summary hotel={hotel} />
          <Gallery gallery={hotel?.gallery} />
-         <Overview shortDescription={hotel?.shortDescription} />
+         <Overview overview={hotel?.overview} />
       </>
    );
 };
