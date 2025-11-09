@@ -22,8 +22,8 @@ const reviewSchema = new Schema({
 const Review = models.Review || model('Review', reviewSchema);
 
 const ratingSchema = new Schema({
-   hotelId: { type: Schema.Types.ObjectId, required: true },
-   userId: { type: Schema.Types.ObjectId, required: true },
+   hotelId: { type: String, required: true },
+   userId: { type: String, required: true },
    rating: { type: Number, required: true },
 });
 const Rating = models.Rating || model('Rating', ratingSchema);
