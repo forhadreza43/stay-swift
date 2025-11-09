@@ -21,3 +21,10 @@ export type Hotel = {
    overview: string;
    amenities: string[];
 };
+
+export type Review = {
+   id: string;
+   hotelId: string;
+   userId: string;
+   review: string;
+};
