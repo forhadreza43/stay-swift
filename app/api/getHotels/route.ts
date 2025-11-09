@@ -1,10 +1,10 @@
-import { connectDB, Hotel } from '@/db/models';
+import { Hotel } from '@/db/models';
 import { replaceMongoIdInArray } from '@/utils/data-util';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
    try {
-      await connectDB();
+      // await connectDB();
       // const hotels = await getAllHotels();
       const hotels = await Hotel.find()
          .select([
