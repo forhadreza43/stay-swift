@@ -8,7 +8,10 @@ export async function GET(request: NextRequest) {
       const hotelId = request.nextUrl.searchParams.get('hotelId');
       // console.log(`hotelId: ${hotelId}`);
       if (!hotelId) {
-         return NextResponse.json({ error: 'Missing hotelId' }, { status: 400 });
+         return NextResponse.json(
+            { error: 'Missing hotelId' },
+            { status: 400 }
+         );
       }
 
       const hotel = await Hotel.findById(new Types.ObjectId(hotelId))
