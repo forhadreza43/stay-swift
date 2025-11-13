@@ -1,6 +1,5 @@
 import { Hotel, Rating } from '@/db/models';
-import { async } from '../.next/dev/types/routes';
-import { error } from 'console';
+
 
 export const replaceMongoIdInArray = (array: any[]) => {
    const mappedArray = array.map((item) => {
