@@ -83,11 +83,12 @@ export const getHotels = async (params: {
          query = query.sort({ lowRate: 1 });
       }
 
-      const hotels = await query.lean();
+      const hotels = await query.lean() as any[];
 
       if (checkIn && checkOut) {
          const filteredHotels = await Promise.all(
             hotels.map(async (hotel) => {
+               const hotelWithBooking = hotel as any;
                const found = await findBooking(
                   String(hotel._id),
                   checkIn || '',
@@ -95,11 +96,11 @@ export const getHotels = async (params: {
                );
                // console.log("From all:",found, hotel._id);
                if (found) {
-                  hotel['isBooked'] = true;
+                  hotelWithBooking.isBooked = true;
                } else {
-                  hotel['isBooked'] = false;
+                  hotelWithBooking.isBooked = false;
                }
-               return hotel;
+               return hotelWithBooking;
             })
          );
          const modifiedHotels = replaceMongoIdInArray(filteredHotels);
@@ -236,15 +237,18 @@ export const getHotelById = async (
             'gallery',
             'overview',
          ])
-         .lean();
+         .lean() as any;
       if (!hotel) return { error: 'Hotel not found', status: 404 };
       if (checkIn && checkOut) {
+         const hotelWithBooking = hotel as any;
          const found = await findBooking(String(hotel._id), checkIn, checkOut);
          if (found) {
-            hotel['isBooked'] = true;
+            hotelWithBooking.isBooked = true;
          } else {
-            hotel['isBooked'] = false;
+            hotelWithBooking.isBooked = false;
          }
+         const modifiedHotel = replaceMongoIdInObject(hotelWithBooking);
+         return { data: modifiedHotel, status: 200 };
       }
       const modifiedHotel = replaceMongoIdInObject(hotel);
       return { data: modifiedHotel, status: 200 };
