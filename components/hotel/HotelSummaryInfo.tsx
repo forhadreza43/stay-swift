@@ -47,7 +47,7 @@ const HotelSummaryInfo = ({
                   <Button className="hover:rounded-full">Details</Button>
                </Link>
             ) : (
-               <Button className="btn-primary ">Book</Button>
+               <Button className="btn-primary">Book</Button>
             )}
          </div>
       </>
