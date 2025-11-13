@@ -32,13 +32,28 @@ function isValidDate(date: Date | undefined) {
    return !isNaN(date.getTime());
 }
 
-export default function DatePicker({ title }: { title: string }) {
+type DatePickerProps = {
+   title: string;
+   value?: Date | undefined;
+   onChange?: (date: Date | undefined) => void;
+};
+
+export default function DatePicker({
+   title,
+   value: controlledValue,
+   onChange,
+}: DatePickerProps) {
    const [open, setOpen] = React.useState(false);
-   const [date, setDate] = React.useState<Date | undefined>(
-      new Date('2025-06-01')
-   );
-   const [month, setMonth] = React.useState<Date | undefined>(date);
-   const [value, setValue] = React.useState(formatDate(date));
+   const [date, setDate] = React.useState<Date | undefined>(controlledValue);
+   const [month, setMonth] = React.useState<Date | undefined>(controlledValue);
+   const [value, setValue] = React.useState(formatDate(controlledValue));
+
+   // Keep internal state in sync if parent controls the value
+   React.useEffect(() => {
+      setDate(controlledValue);
+      setMonth(controlledValue);
+      setValue(formatDate(controlledValue));
+   }, [controlledValue]);
 
    return (
       <div className="flex flex-col gap-3">
@@ -52,11 +67,12 @@ export default function DatePicker({ title }: { title: string }) {
                placeholder="June 01, 2025"
                className="bg-background pr-10"
                onChange={(e) => {
-                  const date = new Date(e.target.value);
+                  const parsed = new Date(e.target.value);
                   setValue(e.target.value);
-                  if (isValidDate(date)) {
-                     setDate(date);
-                     setMonth(date);
+                  if (isValidDate(parsed)) {
+                     setDate(parsed);
+                     setMonth(parsed);
+                     onChange?.(parsed);
                   }
                }}
                onKeyDown={(e) => {
@@ -89,9 +105,10 @@ export default function DatePicker({ title }: { title: string }) {
                      captionLayout="dropdown"
                      month={month}
                      onMonthChange={setMonth}
-                     onSelect={(date) => {
-                        setDate(date);
-                        setValue(formatDate(date));
+                     onSelect={(selected) => {
+                        setDate(selected);
+                        setValue(formatDate(selected));
+                        onChange?.(selected);
                         setOpen(false);
                      }}
                   />
