@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Review } from '@/types/types';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { getReviews } from '@/utils/queries';
 
 export default async function ReviewPage({
    params,
@@ -11,10 +12,8 @@ export default async function ReviewPage({
    params: { id: string };
 }) {
    const { id } = await params;
-   const { data } = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/getReviews?hotelId=${id}`,
-      { cache: 'no-store' }
-   ).then((res) => res.json());
+   const { data } = await getReviews(id);
+   const reviews: Review[] = Array.isArray(data) ? data : [];
    // console.log(data);
    return (
       <div className="container pt-30">
@@ -24,7 +23,7 @@ export default async function ReviewPage({
                   Guest reviews
                </h1>
                <p className="text-muted-foreground">
-                  {data.length} review{data.length === 1 ? '' : 's'}
+                  {reviews.length} review{reviews.length === 1 ? '' : 's'}
                </p>
             </div>
             <div className="flex items-center gap-2">
@@ -39,7 +38,7 @@ export default async function ReviewPage({
             </div>
          </div>
 
-         {data.length === 0 ? (
+         {reviews.length === 0 ? (
             <Card>
                <CardHeader>
                   <CardTitle>No reviews yet</CardTitle>
@@ -53,7 +52,7 @@ export default async function ReviewPage({
             </Card>
          ) : (
             <div className="space-y-4">
-               {data.map((review: Review) => (
+               {reviews.map((review: Review) => (
                   <Card key={review.id}>
                      <ReviewerCard userId={review?.userId} />
                      <CardContent>

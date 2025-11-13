@@ -1,6 +1,5 @@
-
-import { Hotel, Rating } from '@/db/models';
-import { replaceMongoIdInArray } from './data-util';
+import { Hotel, Rating, Review, User, connectDB } from '@/db/models';
+import { replaceMongoIdInArray, replaceMongoIdInObject } from './data-util';
 // Server-side data fetching function for hotels
 export const getHotels = async (params: {
    destination?: string;
@@ -8,6 +7,7 @@ export const getHotels = async (params: {
    checkOut?: string;
 }) => {
    try {
+      await connectDB();
       const { destination, checkIn, checkOut } = params;
 
       // Build dynamic query filter
@@ -42,6 +42,7 @@ export const getHotels = async (params: {
 
 export const getRatings = async (hotelId: string) => {
    try {
+      await connectDB();
       // console.log(`hotelId: ${hotelId}`);
       if (!hotelId) {
          return {
@@ -78,5 +79,57 @@ export const getRatings = async (hotelId: string) => {
          error: 'Internal Server Error',
          status: 500,
       };
+   }
+};
+
+export const getHotelById = async (hotelId: string) => {
+   try {
+      await connectDB();
+      if (!hotelId) return { error: 'Missing hotelId', status: 400 };
+      const hotel = await Hotel.findById(hotelId)
+         .select([
+            'thumbNailUrl',
+            'name',
+            'highRate',
+            'lowRate',
+            'city',
+            'propertyCategory',
+            'gallery',
+            'overview',
+         ])
+         .lean();
+      if (!hotel) return { error: 'Hotel not found', status: 404 };
+      const modifiedHotel = replaceMongoIdInObject(hotel);
+      return { data: modifiedHotel, status: 200 };
+   } catch (err) {
+      console.error('getHotelById error:', err);
+      return { error: 'Internal Server Error', status: 500 };
+   }
+};
+
+export const getReviews = async (hotelId: string) => {
+   try {
+      await connectDB();
+      if (!hotelId) return { error: 'Missing hotelId', status: 400 };
+      const reviews = await Review.find({ hotelId }).lean();
+      const modifiedReviews = replaceMongoIdInArray(reviews);
+      return { data: modifiedReviews, status: 200 };
+   } catch (err) {
+      console.error('getReviews error:', err);
+      return { error: 'Internal Server Error', status: 500 };
+   }
+};
+
+export const getUser = async (userId: string) => {
+   try {
+      await connectDB();
+      if (!userId) return { error: 'Missing userId', status: 400 };
+      const user = await User.findById(userId).lean();
+      if (!user) return { error: 'User not found', status: 404 };
+      const modifiedUser = replaceMongoIdInObject(user);
+      return { data: modifiedUser, status: 200 };
+   } catch (err) {
+      console.error('getUser error:', err);
+      return { error: 'Internal Server Error', status: 500 };
    }
 };

@@ -22,7 +22,7 @@ export async function getBaseUrl() {
  * Helper to build full API URL
  * Usage: const url = await getApiUrl('/api/endpoint?param=value')
  */
-export async function getApiUrl(path: string) {
+export async function getApiUrl() {
    const baseUrl = await getBaseUrl();
-   return `${baseUrl}${path}`;
+   return baseUrl;
 }

@@ -1,5 +1,6 @@
 import { CardHeader, CardTitle } from '../ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { getUser } from '@/utils/queries';
 
 type User = {
    id: string;
@@ -11,14 +12,7 @@ type User = {
 
 export default async function ReviewerCard({ userId }: { userId: string }) {
    if (!userId) return null;
-   const res = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/getUser?userId=${userId}`,
-      { cache: 'no-store' }
-   );
-   const { data }: { data: User | null } = res.ok
-      ? await res.json()
-      : { data: null };
-   console.log(data);
+   const { data }: { data?: User } = await getUser(userId);
    return (
       <CardHeader className="flex flex-row items-center gap-4">
          <Avatar className="h-10 w-10">
