@@ -11,7 +11,7 @@ const ProfileInfo = async () => {
       <div className="flex flex-col items-center py-8 text-center">
          <div className="relative max-h-[180px] max-w-[180px] rounded-full lg:mb-8 h-[100px] w-[100px] grid place-items-center text-4xl text-white">
             <Avatar className='w-full h-full ring-2 ring-primary ring-offset-2'>
-               <AvatarImage src={(session?.user?.image && session?.user?.image) || ''} />
+               <AvatarImage src={session?.user?.image ? session?.user?.image : ''} />
                <AvatarFallback className="font-semibold bg-primary">
                   {session?.user?.name[0]}
                </AvatarFallback>
