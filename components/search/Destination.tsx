@@ -28,16 +28,32 @@ export default function Destination({
             />
          </SelectTrigger>
          <SelectContent>
-            <SelectItem value="Bali">Bali</SelectItem>
-            <SelectItem value="Coxs Bazar">Coxs Bazar</SelectItem>
-            <SelectItem value="Sylhet">Sylhet</SelectItem>
-            <SelectItem value="Saint Martin">Saint Martin</SelectItem>
-            <SelectItem value="Dhaka">Dhaka</SelectItem>
-            <SelectItem value="Chittagong">Chittagong</SelectItem>
-            <SelectItem value="Khulna">Khulna</SelectItem>
-            <SelectItem value="Rajshahi">Rajshahi</SelectItem>
-            <SelectItem value="Barisal">Barisal</SelectItem>
-            <SelectItem value="Rangpur">Rangpur</SelectItem>
+            <SelectItem value="Puglia">Puglia</SelectItem>
+            <SelectItem value="Fethiye">Fethiye</SelectItem>
+            <SelectItem value="Tisvildeleje">Tisvildeleje</SelectItem>
+            <SelectItem value="Calvi">Calvi</SelectItem>
+            <SelectItem value="Unterwössen">Unterwössen</SelectItem>
+            <SelectItem value="Kerkira">Kerkira</SelectItem>
+            <SelectItem value="Perpignan">Perpignan</SelectItem>
+            <SelectItem value="Bromskirchen">Bromskirchen</SelectItem>
+            <SelectItem value="West Midlands">West Midlands</SelectItem>
+            <SelectItem value="Greater London">Greater London</SelectItem>
+            <SelectItem value="Le Pré-Saint-Gervais">
+               Le Pré-Saint-Gervais
+            </SelectItem>
+            <SelectItem value="London">London</SelectItem>
+            <SelectItem value="Catania">Catania</SelectItem>
+            <SelectItem value="Paris">Paris</SelectItem>
+            <SelectItem value="Gokceovacık">Gokceovacık</SelectItem>
+            <SelectItem value="Pornichet">Pornichet</SelectItem>
+            <SelectItem value="Putzbrunn">Putzbrunn</SelectItem>
+            <SelectItem value="Frejus">Frejus</SelectItem>
+            <SelectItem value="Saint-Denis">Saint-Denis</SelectItem>
+            <SelectItem value="Kadıköy">Kadıköy</SelectItem>
+            <SelectItem value="Karlovasi">Karlovasi</SelectItem>
+            <SelectItem value="Fatih">Fatih</SelectItem>
+            <SelectItem value="Portsmouth">Portsmouth</SelectItem>
+            <SelectItem value="Cergy">Cergy</SelectItem>
          </SelectContent>
       </Select>
    );
