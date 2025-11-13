@@ -1,9 +1,10 @@
-export default async function HotelRatings({ hotelId }: { hotelId: string }) {
-   const { data } = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/getRatings?hotelId=${hotelId}`
-   ).then((res) => res.json());
+import { getRatings } from "@/utils/data-util";
 
-   const ratings = data || 0;
+export default async function HotelRatings({ hotelId }: { hotelId: string }) {
+   const result = await getRatings(hotelId);
+   
+
+   const ratings = result?.data ?? 0;
 
    let ratingDescription = "";
    if(ratings === 0){
@@ -25,7 +26,7 @@ export default async function HotelRatings({ hotelId }: { hotelId: string }) {
    return (
       <>
          <div className="bg-primary w-[35px] h-[35px] rounded-sm text-white grid place-items-center font-bold">
-            <span>{data || 0}</span>
+            <span>{ratings}</span>
          </div>
          <span className="font-medium">{ratingDescription}</span>
       </>

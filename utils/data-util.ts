@@ -1,4 +1,6 @@
-import { Hotel } from '@/db/models';
+import { Hotel, Rating } from '@/db/models';
+import { async } from '../.next/dev/types/routes';
+import { error } from 'console';
 
 export const replaceMongoIdInArray = (array: any[]) => {
    const mappedArray = array.map((item) => {
@@ -63,5 +65,47 @@ export const getHotels = async (params: {
    } catch (err) {
       console.error('getHotels error:', err);
       throw new Error('Failed to fetch hotels');
+   }
+};
+
+export const getRatings = async (hotelId: string) => {
+   try {
+      // console.log(`hotelId: ${hotelId}`);
+      if (!hotelId) {
+         return {
+            error: 'Missing hotelId',
+            status: 400,
+         };
+      }
+
+      const ratings = await Rating.find({ hotelId: hotelId }).lean();
+      const modifiedRatings = replaceMongoIdInArray(ratings);
+      // console.log(modifiedRatings);
+
+      if (Array.isArray(modifiedRatings) && modifiedRatings.length > 1) {
+         const sum = modifiedRatings.reduce((acc, r) => {
+            const val =
+               typeof r.rating === 'number'
+                  ? r.rating
+                  : parseFloat(String(r.rating)) || 0;
+            return acc + val;
+         }, 0);
+         const average = Number((sum / modifiedRatings.length).toFixed(2));
+         return { data: average, status: 200 };
+      } else if (modifiedRatings.length === 1) {
+         return {
+            data: modifiedRatings[0].rating,
+            status: 200,
+         };
+      } else if (modifiedRatings.length === 0) {
+         return { data: 0, status: 200 };
+      }
+
+   } catch (err) {
+      console.error('getRatings error:', err);
+      return {
+         error: 'Internal Server Error',
+         status: 500,
+      };
    }
 };
