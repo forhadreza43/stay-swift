@@ -4,6 +4,17 @@ import {
    replaceMongoIdInArray,
    replaceMongoIdInObject,
 } from './data-util';
+
+interface GetHotels {
+   _id?: string;
+   name: string;
+   city: string;
+   highRate: number;
+   lowRate: number;
+   propertyCategory?: number;
+   thumbNailUrl: string;
+}
+
 // Server-side data fetching function for hotels
 export const getHotels = async (params: {
    destination?: string;
@@ -36,7 +47,9 @@ export const getHotels = async (params: {
       // Price range filter
       if (priceRange) {
          const ranges = priceRange.split(',');
-         const priceConditions: any[] = [];
+         // [{ lowRate: { $gte: 30, $lte: 60 } }];
+         const priceConditions: { lowRate: { $gte: number; $lte?: number } }[] =
+            [];
 
          ranges.forEach((range) => {
             const [min, max] = range.split('-').map(Number);
@@ -50,9 +63,12 @@ export const getHotels = async (params: {
             }
          });
 
+         // console.log(priceConditions);
+
          if (priceConditions.length > 0) {
             filter.$or = priceConditions;
          }
+         // console.log(priceConditions);
       }
 
       // Star category filter
@@ -83,7 +99,8 @@ export const getHotels = async (params: {
          query = query.sort({ lowRate: 1 });
       }
 
-      const hotels = await query.lean() as any[];
+      const hotels = (await query.lean()) as any[];
+      // console.log(hotels);
 
       if (checkIn && checkOut) {
          const filteredHotels = await Promise.all(
@@ -218,6 +235,19 @@ export const getRatings = async (hotelId: string) => {
    }
 };
 
+interface HotelById {
+   _id?: string;
+   thumbNailUrl?: string;
+   name?: string;
+   highRate?: number;
+   lowRate?: number;
+   city?: string;
+   propertyCategory?: number;
+   gallery?: string[];
+   overview?: string;
+   isBooked?: boolean;
+}
+
 export const getHotelById = async (
    hotelId: string,
    checkIn?: string,
@@ -226,7 +256,7 @@ export const getHotelById = async (
    try {
       await connectDB();
       if (!hotelId) return { error: 'Missing hotelId', status: 400 };
-      const hotel = await Hotel.findById(hotelId)
+      const hotel = (await Hotel.findById(hotelId)
          .select([
             'thumbNailUrl',
             'name',
@@ -237,11 +267,11 @@ export const getHotelById = async (
             'gallery',
             'overview',
          ])
-         .lean() as any;
+         .lean()) as HotelById;
       if (!hotel) return { error: 'Hotel not found', status: 404 };
       if (checkIn && checkOut) {
-         const hotelWithBooking = hotel as any;
-         const found = await findBooking(String(hotel._id), checkIn, checkOut);
+         const hotelWithBooking = hotel as HotelById;
+         const found = await findBooking(String(hotel?._id), checkIn, checkOut);
          if (found) {
             hotelWithBooking.isBooked = true;
          } else {
