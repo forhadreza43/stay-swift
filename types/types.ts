@@ -28,3 +28,9 @@ export type Review = {
    userId: string;
    review: string;
 };
+
+export type SearchQuery = {
+   checkIn: string;
+   checkOut: string;
+   destination: string;
+};
