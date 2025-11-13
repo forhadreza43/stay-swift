@@ -1,6 +1,6 @@
 import { Hotel, Rating } from '@/db/models';
 
-
+// Synchronous utility – no async/await needed here
 export const replaceMongoIdInArray = (array: any[]) => {
    const mappedArray = array.map((item) => {
       const converted: any = {
