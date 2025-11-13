@@ -1,4 +1,4 @@
-import { connectDB, Hotel } from '@/db/models';
+import { Hotel } from '@/db/models';
 import { replaceMongoIdInArray } from '@/utils/data-util';
 import { NextRequest, NextResponse } from 'next/server';
 

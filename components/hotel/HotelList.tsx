@@ -1,24 +1,15 @@
-import { Hotel, SearchQuery } from '@/types/types';
+import { Hotel } from '@/types/types';
 import HotelCard from './HotelCard';
+import { getHotels } from '@/utils/data-util';
+import { SearchQuery } from '@/types/types';
 
 const HotelList = async ({ searchQuery }: { searchQuery: SearchQuery }) => {
-   // // Build query string from searchQuery
-   // const params = new URLSearchParams();
-   // if (searchQuery.destination)
-   //    params.set('destination', searchQuery.destination);
-   // if (searchQuery.checkIn) params.set('checkIn', searchQuery.checkIn);
-   // if (searchQuery.checkOut) params.set('checkOut', searchQuery.checkOut);
+   const { data: hotels } = await getHotels({
+      destination: searchQuery.destination,
+      checkIn: searchQuery.checkIn,
+      checkOut: searchQuery.checkOut,
+   });
 
-   const { data: hotels } = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/getHotels?destination=${searchQuery.destination}&checkIn=${searchQuery.checkIn}&checkOut=${searchQuery.checkOut}`,
-      {
-         method: 'GET',
-         headers: {
-            'Content-Type': 'application/json',
-         },
-         cache: 'no-store', 
-      }
-   ).then((res) => res.json());
    return (
       <div className="col-span-9">
          <div className="space-y-4">
