@@ -2,7 +2,7 @@ import { Hotel } from '@/types/types';
 import HotelSummaryInfo from './HotelSummaryInfo';
 import Image from 'next/image';
 
-const HotelCard = ({ hotel }: { hotel: Hotel }) => {
+const HotelCard = ({ hotel, checkIn, checkOut }: { hotel: Hotel, checkIn: string, checkOut: string }) => {
   //  console.log(hotel);
    return (
       <div className="flex gap-6 border border-gray/20 p-4 rounded-md">
@@ -13,7 +13,7 @@ const HotelCard = ({ hotel }: { hotel: Hotel }) => {
             width={800}
             height={500}
          />
-         <HotelSummaryInfo fromListPage={true} hotel={hotel} />
+         <HotelSummaryInfo fromListPage={true} hotel={hotel} checkIn={checkIn} checkOut={checkOut} />
       </div>
    );
 };

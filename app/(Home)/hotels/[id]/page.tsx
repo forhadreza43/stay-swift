@@ -6,11 +6,14 @@ import { getHotelById } from '@/utils/queries';
 
 export async function generateMetadata({
    params,
+   searchParams,
 }: {
    params: Promise<{ id: string }>;
+   searchParams: Promise<{ checkIn?: string; checkOut?: string }>;
 }): Promise<Metadata> {
    const { id: hotelId } = await params;
-   const { data: hotel } = await getHotelById(hotelId);
+   const { checkIn, checkOut } = await searchParams;
+   const { data: hotel } = await getHotelById(hotelId, checkIn, checkOut);
    return {
       title: hotel?.name || 'Hotel Details',
       description: hotel?.overview?.slice(0, 160) || 'Hotel information',
@@ -19,15 +22,18 @@ export async function generateMetadata({
 
 const HotelDetailsPage = async ({
    params,
+   searchParams,
 }: {
    params: Promise<{ id: string }>;
+   searchParams: Promise<{ checkIn?: string; checkOut?: string }>;
 }) => {
    const { id: hotelId } = await params;
-   const { data: hotel } = await getHotelById(hotelId);
+   const { checkIn, checkOut } = await searchParams;
+   const { data: hotel } = await getHotelById(hotelId, checkIn, checkOut);
    // console.log(hotel);
    return (
       <>
-         <Summary hotel={hotel} />
+         <Summary hotel={hotel} checkIn={checkIn} checkOut={checkOut} />
          <Gallery gallery={hotel?.gallery} />
          <Overview overview={hotel?.overview} />
       </>

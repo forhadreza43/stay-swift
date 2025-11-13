@@ -84,7 +84,7 @@ export const getHotels = async (params: {
       }
 
       const hotels = await query.lean();
-      
+
       if (checkIn && checkOut) {
          const filteredHotels = await Promise.all(
             hotels.map(async (hotel) => {
@@ -217,7 +217,11 @@ export const getRatings = async (hotelId: string) => {
    }
 };
 
-export const getHotelById = async (hotelId: string) => {
+export const getHotelById = async (
+   hotelId: string,
+   checkIn?: string,
+   checkOut?: string
+) => {
    try {
       await connectDB();
       if (!hotelId) return { error: 'Missing hotelId', status: 400 };
@@ -234,6 +238,14 @@ export const getHotelById = async (hotelId: string) => {
          ])
          .lean();
       if (!hotel) return { error: 'Hotel not found', status: 404 };
+      if (checkIn && checkOut) {
+         const found = await findBooking(String(hotel._id), checkIn, checkOut);
+         if (found) {
+            hotel['isBooked'] = true;
+         } else {
+            hotel['isBooked'] = false;
+         }
+      }
       const modifiedHotel = replaceMongoIdInObject(hotel);
       return { data: modifiedHotel, status: 200 };
    } catch (err) {

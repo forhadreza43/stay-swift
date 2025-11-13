@@ -8,10 +8,18 @@ import HotelReviews from './HotelReviews';
 const HotelSummaryInfo = ({
    fromListPage,
    hotel,
+   checkIn,
+   checkOut,
 }: {
    fromListPage: boolean;
    hotel: Hotel;
+   checkIn: string;
+   checkOut: string;
 }) => {
+   let params = '';
+   if (checkIn && checkOut) {
+      params = `?checkIn=${checkIn}&checkOut=${checkOut}`;
+   }
    return (
       <>
          <div className={fromListPage ? 'flex-1' : 'flex-1 container'}>
@@ -30,7 +38,7 @@ const HotelSummaryInfo = ({
                <span>|</span>
                <HotelReviews hotelId={hotel?.id} />
             </div>
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
                <span className="text-sm bg-yellow-400 rounded-full px-3 py-1.5">
                   {hotel?.propertyCategory} Star Property
                </span>
@@ -48,11 +56,20 @@ const HotelSummaryInfo = ({
             </h2>
             <p className=" text-right">Per Night for 1 Rooms</p>
             {fromListPage ? (
-               <Link href={`/hotels/${hotel.id}`}>
+               <Link href={`/hotels/${hotel.id}${params}`}>
                   <Button className="hover:rounded-full">Details</Button>
                </Link>
             ) : (
-               <Button className="btn-primary">Book</Button>
+               <Link href={`/hotels/${hotel?.id}/payment`}>
+                  <Button
+                     className={`btn-primary hover:rounded-full ${
+                        hotel?.isBooked ? 'cursor-not-allowed' : ''
+                     }`}
+                     disabled={hotel?.isBooked}
+                  >
+                     Book
+                  </Button>
+               </Link>
             )}
          </div>
       </>
