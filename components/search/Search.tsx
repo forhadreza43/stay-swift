@@ -38,8 +38,13 @@ const Search = ({ fromList }: { fromList: boolean }) => {
    );
 
    const allowSearch = useMemo(() => {
-      if (!destination || !checkInDate || !checkOutDate) return false;
-      if (checkInDate.getTime() > checkOutDate.getTime()) return false;
+      if (!destination) return false;
+      if (checkInDate && !checkOutDate) return false;
+      if (!checkInDate && checkOutDate) return false;
+      if (checkInDate && checkOutDate) {
+         if (checkInDate.getTime() === checkOutDate.getTime()) return false;
+         if (checkInDate.getTime() > checkOutDate.getTime()) return false;
+      }
       return true;
    }, [destination, checkInDate, checkOutDate]);
 
@@ -65,11 +70,11 @@ const Search = ({ fromList }: { fromList: boolean }) => {
       }
    };
 
-   console.log(
-      destination,
-      checkInDate?.toISOString(),
-      checkOutDate?.toISOString()
-   );
+   // console.log(
+   //    destination,
+   //    checkInDate?.toISOString(),
+   //    checkOutDate?.toISOString()
+   // );
    return (
       <>
          <div className="lg:max-h-[250px] mt-6">

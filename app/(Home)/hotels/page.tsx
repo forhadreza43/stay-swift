@@ -14,23 +14,24 @@ const HotelListPage = async ({
    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
    const params = await searchParams;
-   const searchQuery:SearchQuery = {
+   const searchQuery: SearchQuery = {
       checkIn: '',
       checkOut: '',
       destination: '',
+      priceRange: '',
+      stars: '',
+      amenities: '',
+      sort: '',
    };
    if (params) {
-      searchQuery.checkIn = params.checkIn as string || '';
-      searchQuery.checkOut = params.checkOut as string || '';
-      searchQuery.destination = params.destination as string || '';
+      searchQuery.checkIn = (params.checkIn as string) || '';
+      searchQuery.checkOut = (params.checkOut as string) || '';
+      searchQuery.destination = (params.destination as string) || '';
+      searchQuery.priceRange = (params.priceRange as string) || '';
+      searchQuery.stars = (params.stars as string) || '';
+      searchQuery.amenities = (params.amenities as string) || '';
+      searchQuery.sort = (params.sort as string) || '';
    }
-   // console.log(params);
-   // console.log(
-   //    'From Hotel List:',
-   //    search.checkIn,
-   //    search.checkOut,
-   //    search.destination
-   // );
 
    return (
       <>

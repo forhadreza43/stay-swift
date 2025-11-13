@@ -8,6 +8,10 @@ const HotelList = async ({ searchQuery }: { searchQuery: SearchQuery }) => {
       destination: searchQuery.destination,
       checkIn: searchQuery.checkIn,
       checkOut: searchQuery.checkOut,
+      priceRange: searchQuery.priceRange,
+      stars: searchQuery.stars,
+      amenities: searchQuery.amenities,
+      sort: searchQuery.sort,
    });
 
    return (

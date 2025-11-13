@@ -1,9 +1,10 @@
-import { Rating } from '@/db/models';
+import { connectDB, Rating } from '@/db/models';
 import { replaceMongoIdInArray } from '@/utils/data-util';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
    try {
+      await connectDB();
       const hotelId = request.nextUrl.searchParams.get('hotelId');
       // console.log(`hotelId: ${hotelId}`);
       if (!hotelId) {

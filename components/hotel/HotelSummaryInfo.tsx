@@ -30,10 +30,15 @@ const HotelSummaryInfo = ({
                <span>|</span>
                <HotelReviews hotelId={hotel?.id} />
             </div>
-            <div>
+            <div className='flex items-center gap-2'>
                <span className="text-sm bg-yellow-400 rounded-full px-3 py-1.5">
                   {hotel?.propertyCategory} Star Property
                </span>
+               {hotel?.isBooked && (
+                  <span className="text-sm bg-red-300 rounded-full px-3 py-1.5">
+                     Booked
+                  </span>
+               )}
             </div>
          </div>
 

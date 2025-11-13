@@ -20,6 +20,7 @@ export type Hotel = {
    gallery: string[];
    overview: string;
    amenities: string[];
+   isBooked?: boolean;
 };
 
 export type Review = {
@@ -33,4 +34,8 @@ export type SearchQuery = {
    checkIn: string;
    checkOut: string;
    destination: string;
+   priceRange?: string;
+   stars?: string;
+   amenities?: string;
+   sort?: string;
 };

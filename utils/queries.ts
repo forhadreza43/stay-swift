@@ -1,14 +1,30 @@
-import { Hotel, Rating, Review, User, connectDB } from '@/db/models';
-import { replaceMongoIdInArray, replaceMongoIdInObject } from './data-util';
+import { Booking, Hotel, Rating, Review, User, connectDB } from '@/db/models';
+import {
+   isDateBetween,
+   replaceMongoIdInArray,
+   replaceMongoIdInObject,
+} from './data-util';
 // Server-side data fetching function for hotels
 export const getHotels = async (params: {
    destination?: string;
    checkIn?: string;
    checkOut?: string;
+   priceRange?: string;
+   stars?: string;
+   amenities?: string;
+   sort?: string;
 }) => {
    try {
       await connectDB();
-      const { destination, checkIn, checkOut } = params;
+      const {
+         destination,
+         checkIn,
+         checkOut,
+         priceRange,
+         stars,
+         amenities,
+         sort,
+      } = params;
 
       // Build dynamic query filter
       const filter: Record<string, unknown> = {};
@@ -17,26 +33,145 @@ export const getHotels = async (params: {
          filter.city = new RegExp(destination, 'i');
       }
 
-      const hotels = await Hotel.find(filter)
-         .select([
-            'thumbNailUrl',
-            'name',
-            'highRate',
-            'lowRate',
-            'city',
-            'propertyCategory',
-         ])
-         .lean();
+      // Price range filter
+      if (priceRange) {
+         const ranges = priceRange.split(',');
+         const priceConditions: any[] = [];
+
+         ranges.forEach((range) => {
+            const [min, max] = range.split('-').map(Number);
+            if (max === 999) {
+               // Handle 182+ case
+               priceConditions.push({ lowRate: { $gte: min } });
+            } else {
+               priceConditions.push({
+                  lowRate: { $gte: min, $lte: max },
+               });
+            }
+         });
+
+         if (priceConditions.length > 0) {
+            filter.$or = priceConditions;
+         }
+      }
+
+      // Star category filter
+      if (stars) {
+         const starCategories = stars.split(',').map(Number);
+         filter.propertyCategory = { $in: starCategories };
+      }
+
+      // Amenities filter (if you have amenities in hotel schema)
+      if (amenities) {
+         const amenitiesList = amenities.split(',');
+         filter.amenities = { $all: amenitiesList };
+      }
+
+      let query = Hotel.find(filter).select([
+         'thumbNailUrl',
+         'name',
+         'highRate',
+         'lowRate',
+         'city',
+         'propertyCategory',
+      ]);
+
+      // Sorting
+      if (sort === 'highToLow') {
+         query = query.sort({ lowRate: -1 });
+      } else if (sort === 'lowToHigh') {
+         query = query.sort({ lowRate: 1 });
+      }
+
+      const hotels = await query.lean();
+      
+      if (checkIn && checkOut) {
+         const filteredHotels = await Promise.all(
+            hotels.map(async (hotel) => {
+               const found = await findBooking(
+                  String(hotel._id),
+                  checkIn || '',
+                  checkOut || ''
+               );
+               // console.log("From all:",found, hotel._id);
+               if (found) {
+                  hotel['isBooked'] = true;
+               } else {
+                  hotel['isBooked'] = false;
+               }
+               return hotel;
+            })
+         );
+         const modifiedHotels = replaceMongoIdInArray(filteredHotels);
+
+         return {
+            data: modifiedHotels,
+            filters: {
+               destination,
+               checkIn,
+               checkOut,
+               priceRange,
+               stars,
+               amenities,
+               sort,
+            },
+         };
+      }
 
       const modifiedHotels = replaceMongoIdInArray(hotels);
 
       return {
          data: modifiedHotels,
-         filters: { destination, checkIn, checkOut },
+         filters: {
+            destination,
+            checkIn,
+            checkOut,
+            priceRange,
+            stars,
+            amenities,
+            sort,
+         },
       };
    } catch (err) {
       console.error('getHotels error:', err);
       throw new Error('Failed to fetch hotels');
+   }
+};
+
+export const findBooking = async (
+   hotelId: string,
+   checkin: string,
+   checkout: string
+) => {
+   try {
+      await connectDB();
+      if (!hotelId || !checkin || !checkout) {
+         return { error: 'Missing parameters', status: 400 };
+      }
+
+      const matches = await Booking.find({
+         hotelId,
+      }).lean();
+
+      const found = matches.find((match) => {
+         return (
+            isDateBetween(
+               checkin,
+               match.checkin.toISOString().split('T')[0],
+               match.checkout.toISOString().split('T')[0]
+            ) ||
+            isDateBetween(
+               checkout,
+               match.checkin.toISOString().split('T')[0],
+               match.checkout.toISOString().split('T')[0]
+            )
+         );
+      });
+
+      return found ? true : false;
+   } catch (err) {
+      console.error('getBooking error:', err);
+      return { error: 'Internal Server Error', status: 500 };
    }
 };
 

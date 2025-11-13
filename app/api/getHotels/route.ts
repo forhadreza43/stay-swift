@@ -1,10 +1,10 @@
-import { Hotel } from '@/db/models';
+import { connectDB, Hotel } from '@/db/models';
 import { replaceMongoIdInArray } from '@/utils/data-util';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
    try {
-      // await connectDB();
+      await connectDB();
 
       // Extract query parameters from URL
       const searchParams = request.nextUrl.searchParams;

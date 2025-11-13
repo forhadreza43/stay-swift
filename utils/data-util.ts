@@ -28,3 +28,10 @@ export const replaceMongoIdInObject = (obj: any) => {
    return updatedObj;
 };
 
+export const isDateBetween = (date: string, start: string, end: string) => {
+   // console.log(date, start, end);
+   const d = new Date(date);
+   const s = new Date(start);
+   const e = new Date(end);
+   return d >= s && d <= e;
+};

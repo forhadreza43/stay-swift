@@ -1,3 +1,4 @@
+import { connectDB } from '@/db/models';
 import { replaceMongoIdInObject } from '@/utils/data-util';
 import { Types } from 'mongoose';
 import mongoose from 'mongoose';
@@ -5,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
    try {
-
+      await connectDB();
       const userId = request.nextUrl.searchParams.get('userId');
       console.log('UserID:', userId);
       if (!userId) {

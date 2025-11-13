@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { getReviews } from '@/utils/queries';
-import { getApiUrl } from '@/lib/api-url';
+// import { getApiUrl } from '@/lib/api-url';
 
 export default async function HotelReviews({ hotelId }: { hotelId: string }) {
-   // const { data } = await getReviews(hotelId);
-   const baseUrl = await getApiUrl();
-   const {data} = await fetch(`${baseUrl}/api/getReviews?hotelId=${hotelId}`).then(res => res.json());
+   const { data } = await getReviews(hotelId);
+   // const apiUrl = await getApiUrl();
+   // const {data} = await fetch(`${apiUrl}/api/getReviews?hotelId=${hotelId}`).then(res => res.json());
    const count = Array.isArray(data) ? data.length : 0;
    return (
       <>

@@ -34,6 +34,7 @@ const BookingSchema = new Schema({
    checkin: { type: Date, required: true },
    checkout: { type: Date, required: true },
 });
+
 const Booking = models.Booking || model('Booking', BookingSchema);
 
 const hotelSchema = new Schema({
