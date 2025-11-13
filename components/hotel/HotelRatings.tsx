@@ -1,4 +1,4 @@
-import { getRatings } from "@/utils/data-util";
+import { getRatings } from "@/utils/queries";
 
 export default async function HotelRatings({ hotelId }: { hotelId: string }) {
    const result = await getRatings(hotelId);

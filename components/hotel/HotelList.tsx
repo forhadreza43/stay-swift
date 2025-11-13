@@ -1,6 +1,6 @@
 import { Hotel } from '@/types/types';
 import HotelCard from './HotelCard';
-import { getHotels } from '@/utils/data-util';
+import { getHotels } from '@/utils/queries';
 import { SearchQuery } from '@/types/types';
 
 const HotelList = async ({ searchQuery }: { searchQuery: SearchQuery }) => {
