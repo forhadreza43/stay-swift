@@ -60,7 +60,7 @@ const HotelSummaryInfo = ({
                   <Button className="hover:rounded-full">Details</Button>
                </Link>
             ) : (
-               <Link href={`/hotels/${hotel?.id}/payment`}>
+               <Link href={`/hotels/${hotel?.id}/payment${params}`}>
                   <Button
                      className={`btn-primary hover:rounded-full ${
                         hotel?.isBooked ? 'cursor-not-allowed' : ''

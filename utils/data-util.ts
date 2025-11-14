@@ -35,3 +35,11 @@ export const isDateBetween = (date: string, start: string, end: string) => {
    const e = new Date(end);
    return d >= s && d <= e;
 };
+
+export const getDayDifference = (start: string, end: string) => {
+   const startDate = new Date(start);
+   const endDate = new Date(end);
+   const timeDiff = endDate.getTime() - startDate.getTime();
+   const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+   return dayDiff + 1;
+};
