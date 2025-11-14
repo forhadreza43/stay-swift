@@ -8,19 +8,19 @@ const PastBooking = ({ bookings }: { bookings: Booking[] }) => {
       <div className="space-y-4">
          <h2 className="text-xl font-bold">🕛️ Past Bookings</h2>
 
-         <div className="bg-[#ebf6e9] p-4 rounded-md">
-            {bookings.length === 0 ? (
-               <p className="text-gray-600 py-9">No past bookings.</p>
-            ) : (
-               <Suspense fallback={<BookingCardSkeleton />}>
-                  <div className="space-y-4">
-                     {bookings.map((booking) => (
-                        <BookingCard key={booking.id} booking={booking} />
-                     ))}
-                  </div>
-               </Suspense>
-            )}
-         </div>
+         {bookings.length === 0 ? (
+            <p className="text-gray-600 text-center py-13 bg-[#ebf6e9] p-4 rounded-md">
+               No past bookings.
+            </p>
+         ) : (
+            <Suspense fallback={<BookingCardSkeleton />}>
+               <div className="space-y-4">
+                  {bookings.map((booking) => (
+                     <BookingCard key={booking.id} booking={booking} />
+                  ))}
+               </div>
+            </Suspense>
+         )}
       </div>
    );
 };
