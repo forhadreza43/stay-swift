@@ -101,11 +101,11 @@ const PaymentForm = ({
             toast.success('Payment processed successfully');
          } else {
             setError('Failed to process payment');
-            toast.error('Failed to process payment');
+            toast.error(error || 'Failed to process payment');
          }
-      } catch (error) {
+      } catch {
          setError('An unexpected error occurred');
-         toast.error('An unexpected error occurred');
+         toast.error(error || 'An unexpected error occurred');
       }
    };
 
