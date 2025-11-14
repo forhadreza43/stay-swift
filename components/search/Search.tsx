@@ -4,13 +4,14 @@ import DatePicker from './DatePicker';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import Destination from './Destination';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const Search = ({ fromList }: { fromList: boolean }) => {
    const pathName = usePathname();
    const { replace } = useRouter();
    const searchParams = useSearchParams();
+   const [loading, setLoading] = useState(false);
 
    // Initialize state from URL params
    const initialDestination = searchParams.get('destination') || '';
@@ -37,6 +38,12 @@ const Search = ({ fromList }: { fromList: boolean }) => {
       initialCheckOut
    );
 
+   // Reset loading when searchParams change (navigation completed)
+   useEffect(() => {
+      const timer = setTimeout(() => setLoading(false), 100);
+      return () => clearTimeout(timer);
+   }, [searchParams]);
+
    const allowSearch = useMemo(() => {
       if (!destination) return false;
       if (checkInDate && !checkOutDate) return false;
@@ -44,11 +51,19 @@ const Search = ({ fromList }: { fromList: boolean }) => {
       if (checkInDate && checkOutDate) {
          if (checkInDate.getTime() === checkOutDate.getTime()) return false;
          if (checkInDate.getTime() > checkOutDate.getTime()) return false;
+         if (checkInDate.getTime() < new Date().setHours(0, 0, 0, 0))
+            return false;
+
+         // if checkIn date is before today, return false
+         const todayStart = new Date();
+         todayStart.setHours(0, 0, 0, 0);
+         if (checkInDate.getTime() < todayStart.getTime()) return false;
       }
       return true;
    }, [destination, checkInDate, checkOutDate]);
 
    const handleSearch = () => {
+      setLoading(true);
       if (!allowSearch) return;
       const params = new URLSearchParams(searchParams);
       params.set('destination', destination);
@@ -70,11 +85,6 @@ const Search = ({ fromList }: { fromList: boolean }) => {
       }
    };
 
-   // console.log(
-   //    destination,
-   //    checkInDate?.toISOString(),
-   //    checkOutDate?.toISOString()
-   // );
    return (
       <>
          <div className="lg:max-h-[250px] mt-6">
@@ -123,11 +133,19 @@ const Search = ({ fromList }: { fromList: boolean }) => {
          </div>
 
          <Button
-            className="search-btn disabled:opacity-100 disabled:cursor-not-allowed"
+            className={`search-btn disabled:opacity-100 disabled:cursor-not-allowed ${
+               loading && 'cursor-wait'
+            }`}
             disabled={!allowSearch}
             onClick={handleSearch}
          >
-            🔍️ {fromList ? 'Modify Search' : 'Search'}
+            {fromList
+               ? loading
+                  ? 'Searching...'
+                  : 'Modify Search'
+               : loading
+               ? 'Searching...'
+               : 'Search'}
          </Button>
       </>
    );

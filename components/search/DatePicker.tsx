@@ -36,17 +36,22 @@ type DatePickerProps = {
    title: string;
    value?: Date | undefined;
    onChange?: (date: Date | undefined) => void;
+   fromPaymentForm?: boolean;
+   required?: boolean;
 };
 
 export default function DatePicker({
    title,
    value: controlledValue,
    onChange,
+   fromPaymentForm = false,
+   required = false,
 }: DatePickerProps) {
    const [open, setOpen] = React.useState(false);
-   const [date, setDate] = React.useState<Date | undefined>(controlledValue);
-   const [month, setMonth] = React.useState<Date | undefined>(controlledValue);
-   const [value, setValue] = React.useState(formatDate(controlledValue));
+   const initialDate = controlledValue;
+   const [date, setDate] = React.useState<Date | undefined>(initialDate);
+   const [month, setMonth] = React.useState<Date | undefined>(initialDate);
+   const [value, setValue] = React.useState(formatDate(initialDate));
 
    // Keep internal state in sync if parent controls the value
    React.useEffect(() => {
@@ -57,14 +62,17 @@ export default function DatePicker({
 
    return (
       <div className="flex flex-col gap-3">
-         <Label htmlFor="date" className="px-1 font-bold text-md">
-            {title}
-         </Label>
+         {fromPaymentForm ? null : (
+            <Label htmlFor="date" className="px-1 font-bold text-md">
+               {title}
+            </Label>
+         )}
+
          <div className="relative flex gap-2">
             <Input
                id="date"
                value={value}
-               placeholder="June 01, 2025"
+               placeholder="Select date"
                className="bg-background pr-10"
                onChange={(e) => {
                   const parsed = new Date(e.target.value);
@@ -81,6 +89,7 @@ export default function DatePicker({
                      setOpen(true);
                   }
                }}
+               required={required}
             />
             <Popover open={open} onOpenChange={setOpen}>
                <PopoverTrigger asChild>
