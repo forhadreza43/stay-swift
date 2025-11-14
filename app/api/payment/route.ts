@@ -1,6 +1,5 @@
 import { Booking, connectDB } from '@/db/models';
 import mongoose from 'mongoose';
-import { Types } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
