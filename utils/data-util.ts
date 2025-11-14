@@ -47,13 +47,18 @@ export const getDayDifference = (start: string, end: string) => {
 
 export const differentiateBookings = (bookings: Booking[]) => {
    const today = new Date();
+   today.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
+
    const pastBookings = bookings.filter((booking: Booking) => {
       const checkoutDate = new Date(booking.checkout);
+      checkoutDate.setHours(0, 0, 0, 0);
       return checkoutDate < today;
    });
+
    const upcomingBookings = bookings.filter((booking: Booking) => {
-      const checkinDate = new Date(booking.checkin);
-      return checkinDate >= today;
+      const checkoutDate = new Date(booking.checkout);
+      checkoutDate.setHours(0, 0, 0, 0);
+      return checkoutDate >= today;
    });
 
    return { pastBookings, upcomingBookings };
