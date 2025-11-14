@@ -1,4 +1,5 @@
 import Search from '@/components/search/Search';
+import SearchSkeleton from '@/components/skeleton/SearchSkeleton';
 import { Suspense } from 'react';
 
 export default async function Home() {
@@ -13,7 +14,7 @@ export default async function Home() {
                   We have 459 rooms spread throuout Indonesia with room
                   standards equivalent to 5 star hotels.
                </p>
-               <Suspense fallback={<div>Loading search...</div>}>
+               <Suspense fallback={<SearchSkeleton />}>
                   <Search fromList={false} />
                </Suspense>
             </div>

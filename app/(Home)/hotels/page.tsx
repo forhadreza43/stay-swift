@@ -3,6 +3,8 @@ import Filter from '@/components/search/Filter';
 import HotelList from '@/components/hotel/HotelList';
 import { Metadata } from 'next';
 import { SearchQuery } from '@/types/types';
+import { Suspense } from 'react';
+import SearchSkeleton from '@/components/skeleton/SearchSkeleton';
 
 export const metadata: Metadata = {
    title: 'Explore Hotels',
@@ -37,7 +39,9 @@ const HotelListPage = async ({
       <>
          <section className="bg-[url('/hero-bg.jpg')] bg-cover bg-no-repeat bg-center pt-[100px] pb-[60px]">
             <div className="container items-center py-12 ">
-               <Search fromList={true} />
+               <Suspense fallback={<SearchSkeleton />}>
+                  <Search fromList={true} />
+               </Suspense>
             </div>
          </section>
          <section className="py-12">
