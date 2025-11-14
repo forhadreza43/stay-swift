@@ -97,8 +97,9 @@ const PaymentForm = ({
          });
          if (res.status === 200) {
             setError(null);
-            router.push('/bookings');
             toast.success('Payment processed successfully');
+            router.refresh();
+            router.push('/bookings');
          } else {
             setError('Failed to process payment');
             toast.error(error || 'Failed to process payment');
