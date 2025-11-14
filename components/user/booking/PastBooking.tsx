@@ -16,7 +16,7 @@ const PastBooking = ({ bookings }: { bookings: Booking[] }) => {
             <Suspense fallback={<BookingCardSkeleton />}>
                <div className="space-y-4">
                   {bookings.map((booking) => (
-                     <BookingCard key={booking.id} booking={booking} />
+                     <BookingCard key={booking.id} booking={booking} fromPastBooking={true} />
                   ))}
                </div>
             </Suspense>

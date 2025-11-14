@@ -60,6 +60,14 @@ export const differentiateBookings = (bookings: Booking[]) => {
       checkoutDate.setHours(0, 0, 0, 0);
       return checkoutDate >= today;
    });
+   
+   pastBookings.sort((a, b) => {
+      return new Date(b.checkin).getTime() - new Date(a.checkin).getTime();
+   });
+
+   upcomingBookings.sort((a, b) => {
+      return new Date(a.checkin).getTime() - new Date(b.checkin).getTime();
+   });
 
    return { pastBookings, upcomingBookings };
 };

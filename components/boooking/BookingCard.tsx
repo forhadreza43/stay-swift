@@ -2,14 +2,18 @@ import { Booking } from '@/types/types';
 import { getDayDifference } from '@/utils/data-util';
 import { getHotelById } from '@/utils/queries';
 
-export default async function BookingCard({ booking }: { booking: Booking }) {
+export default async function BookingCard({ booking, fromPastBooking=false }: { booking: Booking, fromPastBooking?: boolean }) {
    const { data: hotel } = await getHotelById(booking?.hotelId);
    const duration = getDayDifference(booking?.checkin?.toISOString().split('T')[0], booking?.checkout?.toISOString().split('T')[0]);
    const pricePerNight = (hotel?.highRate - hotel?.lowRate) / 2; 
    return (
-      <div className="bg-[#F6F3E9] p-4 rounded-md">
+      <div
+         className={` p-4 rounded-md ${
+            fromPastBooking ? 'bg-[#F6F3E9]' : 'bg-[#ebf6e9]'
+         }`}
+      >
          <div className="flex justify-between items-center ">
-            <div className='flex flex-col justify-between'>
+            <div className="flex flex-col justify-between">
                <h3 className="text-xl font-semibold">{hotel?.name}</h3>
                <div className="text-sm text-gray-600 my-4">
                   <p>Check In: {booking.checkin.toISOString().split('T')[0]}</p>
