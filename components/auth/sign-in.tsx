@@ -110,6 +110,7 @@ export default function SignIn() {
                            onSuccess: () => {
                               setError('');
                               router.push('/');
+                              toast.success('Logged in successfully');
                            },
                            onError: (ctx) => {
                               setError(ctx.error.message);

@@ -4,7 +4,7 @@ import '@/app/globals.css';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { connectDB } from '@/db/models';
-
+import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -32,6 +32,7 @@ export default function RootLayout({
             >
                <Navbar sideMenu={false} />
                <main>{children}</main>
+               <Toaster />
             </ThemeProvider>
          </body>
       </html>

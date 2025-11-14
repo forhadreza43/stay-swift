@@ -181,6 +181,7 @@ export default function SignUp() {
                               onSuccess: async () => {
                                  setError('');
                                  router.push('/login');
+                                 toast.success('Account created successfully. Please log in.');
                               },
                            },
                         });
