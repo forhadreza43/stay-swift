@@ -322,10 +322,11 @@ export const getBookings = async (userId: string) => {
       if (!userId) return { error: 'Missing userId', status: 400 };
       const bookings = await Booking.find({ userId }).lean();
       const modifiedBookings = replaceMongoIdInArray(bookings);
+      console.log("From api:",modifiedBookings);
       const differentiatedBookings = differentiateBookings(modifiedBookings);
-      return { data: differentiatedBookings, status: 200 }; 
+      return { data: differentiatedBookings, status: 200 };
    } catch (error) {
       console.error('getBookings error:', error);
       return { error: 'Internal Server Error', status: 500 };
    }
-}
+};
