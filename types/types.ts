@@ -30,6 +30,13 @@ export type Review = {
    review: string;
 };
 
+export type Booking = {
+   id: string;
+   hotelId: string;
+   userId: string;
+   checkin: Date;
+   checkout: Date;
+};
 export type SearchQuery = {
    checkIn: string;
    checkOut: string;

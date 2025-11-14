@@ -1,4 +1,5 @@
 import { Hotel, Rating } from '@/db/models';
+import { Booking } from '@/types/types';
 
 // Synchronous utility – no async/await needed here
 export const replaceMongoIdInArray = (array: any[]) => {
@@ -42,4 +43,18 @@ export const getDayDifference = (start: string, end: string) => {
    const timeDiff = endDate.getTime() - startDate.getTime();
    const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
    return dayDiff + 1;
+};
+
+export const differentiateBookings = (bookings: Booking[]) => {
+   const today = new Date();
+   const pastBookings = bookings.filter((booking: Booking) => {
+      const checkoutDate = new Date(booking.checkout);
+      return checkoutDate < today;
+   });
+   const upcomingBookings = bookings.filter((booking: Booking) => {
+      const checkinDate = new Date(booking.checkin);
+      return checkinDate >= today;
+   });
+
+   return { pastBookings, upcomingBookings };
 };

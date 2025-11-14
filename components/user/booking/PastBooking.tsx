@@ -1,26 +1,28 @@
-const PastBooking = () => {
-  return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-bold">🕛️ Past Bookings</h2>
+import BookingCard from '@/components/boooking/BookingCard';
+import BookingCardSkeleton from '@/components/skeleton/BookingCardSkeleton';
+import { Booking } from '@/types/types';
+import { Suspense } from 'react';
 
-      <div className="bg-[#ebf6e9] p-4 rounded-md">
-        <div className="flex justify-between items-center ">
-          <div>
-            <h3 className="text-xl font-semibold">Effotel By Sayaji Jaipur</h3>
-            <div className="text-sm text-gray-600 my-4">
-              <p>Check In: 12/12/2021</p>
-              <p>Check Out: 14/12/2021</p>
-            </div>
-          </div>
+const PastBooking = ({ bookings }: { bookings: Booking[] }) => {
+   return (
+      <div className="space-y-4">
+         <h2 className="text-xl font-bold">🕛️ Past Bookings</h2>
 
-          <div>
-            <h3 className="text-xl font-semibold text-right">$124</h3>
-            <p className="text-sm text-gray-600">$62 per night x 2 days</p>
-          </div>
-        </div>
+         <div className="bg-[#ebf6e9] p-4 rounded-md">
+            {bookings.length === 0 ? (
+               <p className="text-gray-600 py-9">No past bookings.</p>
+            ) : (
+               <Suspense fallback={<BookingCardSkeleton />}>
+                  <div className="space-y-4">
+                     {bookings.map((booking) => (
+                        <BookingCard key={booking.id} booking={booking} />
+                     ))}
+                  </div>
+               </Suspense>
+            )}
+         </div>
       </div>
-    </div>
-  );
+   );
 };
 
 export default PastBooking;

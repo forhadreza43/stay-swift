@@ -1,5 +1,6 @@
 import { Booking, Hotel, Rating, Review, User, connectDB } from '@/db/models';
 import {
+   differentiateBookings,
    isDateBetween,
    replaceMongoIdInArray,
    replaceMongoIdInObject,
@@ -314,3 +315,17 @@ export const getUser = async (userId: string) => {
       return { error: 'Internal Server Error', status: 500 };
    }
 };
+
+export const getBookings = async (userId: string) => {
+   try {
+      await connectDB();
+      if (!userId) return { error: 'Missing userId', status: 400 };
+      const bookings = await Booking.find({ userId }).lean();
+      const modifiedBookings = replaceMongoIdInArray(bookings);
+      const differentiatedBookings = differentiateBookings(modifiedBookings);
+      return { data: differentiatedBookings, status: 200 }; 
+   } catch (error) {
+      console.error('getBookings error:', error);
+      return { error: 'Internal Server Error', status: 500 };
+   }
+}
