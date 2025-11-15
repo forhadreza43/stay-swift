@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 const LoginPage = () => {
    return (
-      <section className="h-screen grid place-items-center">
+      <section className="h-screen grid place-items-center container">
          <div className="max-w-md w-full mx-auto">
             <SignIn />
          </div>
