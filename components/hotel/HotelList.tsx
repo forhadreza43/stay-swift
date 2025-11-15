@@ -15,7 +15,7 @@ const HotelList = async ({ searchQuery }: { searchQuery: SearchQuery }) => {
    });
 
    return (
-      <div className="col-span-9">
+      <div className="col-span-12 md:col-span-9">
          <div className="space-y-4">
             {hotels.map((hotel: Hotel) => (
                <HotelCard key={hotel.id} hotel={hotel} checkIn={searchQuery?.checkIn} checkOut={searchQuery?.checkOut} />
