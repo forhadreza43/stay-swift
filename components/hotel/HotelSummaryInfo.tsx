@@ -22,10 +22,12 @@ const HotelSummaryInfo = ({
    }
    return (
       <>
-         <div className={fromListPage ? 'flex-1' : 'flex-1 container'}>
+         <div className={fromListPage ? 'flex-1' : 'flex-1'}>
             <h2
                className={
-                  fromListPage ? 'font-bold text-lg' : 'font-bold text-2xl'
+                  fromListPage
+                     ? 'font-bold text-lg md:text-xl'
+                     : 'font-bold text-xl md:text-2xl'
                }
             >
                {hotel?.name}
@@ -50,8 +52,14 @@ const HotelSummaryInfo = ({
             </div>
          </div>
 
-         <div className="flex flex-col gap-2 items-end justify-center">
-            <h2 className="text-2xl font-bold text-right">
+         <div className="flex flex-col gap-2 items-start md:items-end justify-center self-stretch md:self-auto">
+            <h2
+               className={`text-xl md:text-2xl font-bold text-right ${
+                  fromListPage
+                     ? 'font-bold text-lg md:text-xl'
+                     : 'font-bold text-xl md:text-2xl'
+               }`}
+            >
                ${(hotel?.lowRate + hotel?.highRate) / 2}/night
             </h2>
             <p className=" text-right">Per Night for 1 Rooms</p>

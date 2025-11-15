@@ -34,8 +34,10 @@ const HotelDetailsPage = async ({
    return (
       <>
          <Summary hotel={hotel} checkIn={checkIn} checkOut={checkOut} />
-         <Gallery gallery={hotel?.gallery} />
-         <Overview overview={hotel?.overview} />
+            <Gallery gallery={hotel?.gallery} />
+         <section>
+            <Overview overview={hotel?.overview} />
+         </section>
       </>
    );
 };

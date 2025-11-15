@@ -30,7 +30,7 @@ const Gallery = ({ gallery }: { gallery: string[] }) => {
 
    return (
       <section className="container">
-         <div className="grid grid-cols-2 imageshowCase gap-3">
+         <div className="grid grid-cols-1 md:grid-cols-2 imageshowCase gap-3">
             <div className="h-[400px]">
                <Link href={`/image/${firstImageId}?url=${firstImageUrl}`}>
                   <Image

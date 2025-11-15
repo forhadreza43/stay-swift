@@ -52,7 +52,8 @@ input[type='date'] {
 }
 
 .imageshowCase {
-   @apply h-[400px];
+   /* Auto height on small screens; fixed height only from md+ */
+   @apply h-auto md:h-[400px];
 }
 
 .imageshowCase img {

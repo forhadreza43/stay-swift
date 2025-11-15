@@ -25,8 +25,8 @@ const PaymentPage = async ({
    console.log(dayCount);
    return (
       <section className="container">
-         <div className="p-6 rounded-lg max-w-xl mx-auto my-12 mt-[100px]">
-            <h2 className="font-bold text-2xl">Payment Details</h2>
+         <div className="md:p-6 rounded-lg max-w-xl mx-auto my-12 mt-[100px]">
+            <h2 className="font-bold text-xl md:text-2xl">Payment Details</h2>
             <p className="text-gray-600 text-sm">
                You have picked <b>{hotel?.name}</b> and total price is{' '}
                <b>${(((hotel?.highRate + hotel?.lowRate) / 2) * dayCount).toFixed(2)}</b> for {dayCount} day{dayCount > 1 ? 's' : ''}.

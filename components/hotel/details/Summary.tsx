@@ -13,7 +13,7 @@ const Summary = async ({
    // console.log('first', params);
    return (
       <section className="py-4 mt-[100px] ">
-         <div className="flex container">
+         <div className="container flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <HotelSummaryInfo
                fromListPage={false}
                hotel={hotel}
