@@ -81,7 +81,7 @@ const Filter = () => {
 
    return (
       <>
-         <div className="col-span-3 space-y-4 hidden md:block">
+         <div className="col-span-3 space-y-4">
             <div>
                <h3 className="font-bold text-lg">Sort By</h3>
                <div className="flex flex-col gap-2 mt-2">

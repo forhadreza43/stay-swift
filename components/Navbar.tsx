@@ -37,7 +37,8 @@ const Navbar = ({ sideMenu }: { sideMenu: boolean }) => {
    const pathname = usePathname();
    const isActive = pathname.startsWith('/image/');
    const [isOpen, setIsOpen] = useState(false);
-   const isInHotelPage = pathname.startsWith('/hotels/');
+   const isInHotelPage =
+      pathname === '/hotels' || pathname.startsWith('/hotels?');
 
    const menuItems = (
       <>
@@ -87,11 +88,6 @@ const Navbar = ({ sideMenu }: { sideMenu: boolean }) => {
                >
                   Sign Out
                </Button>
-            </li>
-         )}
-         {isInHotelPage && (
-            <li className="md:hidden">
-               <Filter />
             </li>
          )}
 
@@ -169,6 +165,12 @@ const Navbar = ({ sideMenu }: { sideMenu: boolean }) => {
                      <div className="px-5">
                         <ul className="flex flex-col gap-4 mt-6">
                            {menuItems}
+                           {/* Filter only in mobile sheet when on hotels page */}
+                           {/* {isInHotelPage && (
+                           )} */}
+                           <li>
+                              <Filter />
+                           </li>
                         </ul>
                      </div>
                   </SheetContent>

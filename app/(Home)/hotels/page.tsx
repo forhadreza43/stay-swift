@@ -46,7 +46,9 @@ const HotelListPage = async ({
          </section>
          <section className="py-12">
             <div className="container grid grid-cols-12">
-               <Filter />
+               <div className="hidden md:block col-span-3">
+                  <Filter />
+               </div>
                <HotelList searchQuery={searchQuery} />
             </div>
          </section>

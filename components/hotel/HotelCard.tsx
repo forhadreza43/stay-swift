@@ -16,7 +16,7 @@ const HotelCard = ({
       <div className="flex flex-col lg:flex-row gap-6 border border-gray/20 p-4 rounded-md w-full">
          <Image
             src={hotel?.thumbNailUrl}
-            className="max-h-[162px] max-w-60"
+            className="max-h-[162px] object-cover w-full lg:max-w-60"
             alt={hotel?.name}
             width={800}
             height={500}
